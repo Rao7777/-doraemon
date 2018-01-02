@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name="format-detection" content="telephone=no">
+
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1" />
+    <link rel='stylesheet' href='../css/calendar.css' />
+    <title>日历 demo</title>
+
+</head>
+
+<body>
+    <div class="bigBox" id='bigBox'>
+        <div class='calendar' id='calendar'></div>
+
+    </div>
+
+    <script src="../js/slide.js"></script>
+    <script src="../js/calendar.js"></script>
+    <script>
+        var list = { //模拟的回款日期
+            isReturned: [20180111, 20180101],
+            notRetuned: [20180103]
+        }
+
+        /* 设置已回款/未回款日期 */
+        setReturnedData()
+
+        function setReturnedData() {
+            var _table = document.getElementById("calendarTable");
+            var _tds = _table.getElementsByTagName("td");
+            for (var i = 0; i < _tds.length; i++) {
+                for (var j = 0; j < list.isReturned.length; j++) {
+                    if (_tds[i].getAttribute('data') == list.isReturned[j]) {
+                        _tds[i].className = 'returnedDay'
+                    }
+                }
+                for (var k = 0; k < list.notRetuned.length; k++) {
+                    if (_tds[i].getAttribute('data') == list.notRetuned[k]) {
+                        _tds[i].className = 'noReturned'
+                    }
+                }
+
+            }
+        }
+    </script>
+
+</body>
+
+</html>
