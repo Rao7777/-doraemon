@@ -88,7 +88,6 @@
 		            var _thisDay = new Date(_year, _month - 1, i + 1 - _firstDay.getDay());
 		            var _thisDayStr = getDateStr(_thisDay);
 		            _tds[i].innerHTML = '<span>' + _thisDay.getDate() + '</span>';
-		            //_tds[i].data = _thisDayStr;
 		            _tds[i].setAttribute('data', _thisDayStr);
 		            if (_thisDayStr == getDateStr(new Date())) { // 当前天
 		                _tds[i].className = 'currentDay';
@@ -108,6 +107,19 @@
 		        var nextMonth = document.getElementById("nextMonth");
 		        addEvent(prevMonth, 'click', toPrevMonth);
 		        addEvent(nextMonth, 'click', toNextMonth);
+
+		        /* 点击选中日期事件*/
+		        var table = document.getElementById("calendarTable");
+		        var tds = table.getElementsByTagName('td');
+		        for (var i = 0; i < tds.length; i++) {
+		            addEvent(tds[i], 'click', function(e) {
+		                for (var j = 0; j < tds.length; j++) {
+		                    tds[j].firstChild.removeAttribute('state')
+		                }
+		                e.target.setAttribute('state', 'choiced')
+		                console.log(e.target);
+		            });
+		        }
 		    }
 
 		    /**

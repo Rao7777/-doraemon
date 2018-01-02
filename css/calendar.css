@@ -123,3 +123,10 @@
 .otherMonth span {
     color: #ede;
 }
+
+
+/* 当前选择的日期*/
+
+[state=choiced] {
+    background-color: blue;
+}
