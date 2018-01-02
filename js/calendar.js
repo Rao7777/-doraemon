@@ -114,7 +114,7 @@
 		        for (var i = 0; i < tds.length; i++) {
 		            addEvent(tds[i], 'click', function(e) {
 		                for (var j = 0; j < tds.length; j++) {
-		                    tds[j].firstChild.removeAttribute('state')
+		                    tds[j].children[0].removeAttribute('state')
 		                }
 		                e.target.setAttribute('state', 'choiced')
 		                console.log(e.target);
