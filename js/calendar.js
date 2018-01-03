@@ -29,13 +29,9 @@
 		        titleBox.className = 'calendar-title-box';
 		        titleBox.innerHTML = "<span class='prev-month' id='prevMonth'></span>" +
 		            // "<span class='calendar-title' id='calendarTitle'></span>" +
-		            // "<span id='titleIcon'>a</span>" +
 		            "<input class='calendar-title' id='calendarTitle' value='2018-01' type='month' />" +
 		            "<span id='nextMonth' class='next-month'></span>";
 
-		        // titleBox.innerHTML = "<span class='prev-month' id='prevMonth'></span>" +
-		        //     "<span class='calendar-title' id='calendarTitle'></span>" +
-		        //     "<span id='nextMonth' class='next-month'></span>";
 		        calendar.appendChild(titleBox); // 添加到calendar div中
 
 		        // 设置表格区的html结构
