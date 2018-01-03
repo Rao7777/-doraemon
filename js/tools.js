@@ -1,5 +1,7 @@
+/*
+ * @param n {number} 要转成大写金额的数字
+ */
 function numToChinese(n) {
-    //数字转大写金额
     if (!/^\d*(\.\d*)?$/.test(n)) {
         return "请输入正确金额";
     }
@@ -37,9 +39,10 @@ function numToChinese(n) {
         .replace(/^整$/, '零元整');
 };
 
-
+/*
+ * 拿url上的参数
+ */
 function getRequest() {
-    //拿url上的参数
     let url = location.search; //获取url中"?"符后的字串 
     let theRequest = new Object();
     if (url.indexOf("?") != -1) {

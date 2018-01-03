@@ -1,5 +1,5 @@
 		(function() {
-		    /*  用于记录日期，显示的时候，根据dateObj中的日期的年月显示*/
+		    // 用于记录日期，显示的时候，根据dateObj中的日期的年月显示
 		    var dateObj = (function() {
 		        var _date = new Date(); // 默认为当前系统时间
 		        return {
@@ -19,9 +19,7 @@
 		    // 绑定事件
 		    bindEvent();
 
-		    /**
-		     * 渲染html结构
-		     */
+		    // 渲染html结构
 		    function renderHtml() {
 		        var calendar = document.getElementById("calendar");
 		        var titleBox = document.createElement("div"); // 标题盒子 设置上一月 下一月 标题
@@ -30,8 +28,14 @@
 		        // 设置标题盒子中的html
 		        titleBox.className = 'calendar-title-box';
 		        titleBox.innerHTML = "<span class='prev-month' id='prevMonth'></span>" +
-		            "<span class='calendar-title' id='calendarTitle'></span>" +
+		            // "<span class='calendar-title' id='calendarTitle'></span>" +
+		            // "<span id='titleIcon'>a</span>" +
+		            "<input class='calendar-title' id='calendarTitle' value='2018-01' type='month' />" +
 		            "<span id='nextMonth' class='next-month'></span>";
+
+		        // titleBox.innerHTML = "<span class='prev-month' id='prevMonth'></span>" +
+		        //     "<span class='calendar-title' id='calendarTitle'></span>" +
+		        //     "<span id='nextMonth' class='next-month'></span>";
 		        calendar.appendChild(titleBox); // 添加到calendar div中
 
 		        // 设置表格区的html结构
@@ -66,14 +70,14 @@
 		        calendar.appendChild(bodyBox);
 		    }
 
-		    /**
-		     * 表格中显示数据，并设置类名
-		     */
+
+
+		    // 表格中显示数据，并设置类名
 		    function showCalendarData() {
 		        var _year = dateObj.getDate().getFullYear();
 		        var _month = dateObj.getDate().getMonth() + 1;
 		        var _dateStr = getDateStr(dateObj.getDate());
-		        console.warn(_dateStr)
+		        // console.warn(_dateStr)
 
 		        // 设置顶部标题栏中的 年、月信息
 		        var calendarTitle = document.getElementById("calendarTitle");
@@ -91,6 +95,7 @@
 		            _tds[i].setAttribute('data', _thisDayStr);
 		            if (_thisDayStr == getDateStr(new Date())) { // 当前天
 		                _tds[i].className = 'currentDay';
+		                _tds[i].innerHTML = '<span>今</span>';
 		            } else if (_thisDayStr.substr(0, 6) == getDateStr(_firstDay).substr(0, 6)) {
 		                _tds[i].className = 'currentMonth'; // 当前月
 		            } else { // 其他月
@@ -99,27 +104,61 @@
 		        }
 		    }
 
-		    /**
-		     * 绑定上个月下个月事件
-		     */
+		    // 绑定监听事件： 切换 上/下个月 , 选择月份 , 选中当前日期
 		    function bindEvent() {
 		        var prevMonth = document.getElementById("prevMonth");
 		        var nextMonth = document.getElementById("nextMonth");
 		        addEvent(prevMonth, 'click', toPrevMonth);
 		        addEvent(nextMonth, 'click', toNextMonth);
 
-		        /* 点击选中日期事件*/
+		        // 选择月份
+		        choiceMonth()
+
+		        // 点击选中日期事件
 		        var table = document.getElementById("calendarTable");
 		        var tds = table.getElementsByTagName('td');
 		        for (var i = 0; i < tds.length; i++) {
 		            addEvent(tds[i], 'click', function(e) {
-		                for (var j = 0; j < tds.length; j++) {
-		                    tds[j].children[0].removeAttribute('state')
+		                clearChoicedDate()
+		                if (e.target.tagName.toUpperCase() == 'TD') {
+		                    e.target.setAttribute('state', 'choiced')
+		                } else {
+		                    e.target.parentNode.setAttribute('state', 'choiced')
 		                }
-		                e.target.setAttribute('state', 'choiced')
-		                console.log(e.target);
 		            });
 		        }
+		    }
+
+		    // 选择月份
+		    function choiceMonth() {
+		        var dateChoice = document.getElementById('calendarTitle');
+		        addEvent(dateChoice, 'click', function() {
+		            dateChoice.click()
+		        })
+
+		        var choiceMonth;
+		        addEvent(dateChoice, 'click', function() {
+		            console.log(22)
+		        })
+
+		        addEvent(dateChoice, 'change', function() {
+		            var dateChoice = document.getElementById('calendarTitle');
+		            alert(dateChoice.value)
+		            console.log('dateChoice', dateChoice.value)
+		            choiceMonth = dateChoice.value;
+		            dateObj.setDate(new Date(choiceMonth.substr(0, 4), choiceMonth.substr(5, 2) - 1, 1));
+		            showCalendarData();
+		        })
+		    }
+
+		    // 清除选中的日期
+		    function clearChoicedDate() {
+		        var table = document.getElementById("calendarTable");
+		        var tds = table.getElementsByTagName('td');
+		        for (var i = 0; i < tds.length; i++) {
+		            tds[i].removeAttribute('state')
+		        }
+
 		    }
 
 		    /**
@@ -141,31 +180,31 @@
 		        }
 		    }
 
-		    /**
-		     * 点击上个月图标触发
-		     */
+
+
+
+		    // 查看上个月数据
 		    function toPrevMonth() {
+		        clearChoicedDate()
 		        var date = dateObj.getDate();
 		        dateObj.setDate(new Date(date.getFullYear(), date.getMonth() - 1, 1));
 		        showCalendarData();
 		    }
 
-		    /**
-		     * 点击下个月图标触发
-		     */
+		    // 查看下个月数据
 		    function toNextMonth() {
+		        clearChoicedDate()
 		        var date = dateObj.getDate();
 		        dateObj.setDate(new Date(date.getFullYear(), date.getMonth() + 1, 1));
 		        showCalendarData();
 		    }
 
-		    /**
-		     * 日期转化为字符串， 4位年+2位月+2位日
-		     */
+		    // 日期转化为字符串， yyyymmdd
 		    function getDateStr(date) {
 		        var _year = date.getFullYear();
 		        var _month = date.getMonth() + 1; // 月从0开始计数
 		        var _d = date.getDate();
+		        // console.log(_year, _month, _d)
 
 		        _month = (_month > 9) ? ("" + _month) : ("0" + _month);
 		        _d = (_d > 9) ? ("" + _d) : ("0" + _d);

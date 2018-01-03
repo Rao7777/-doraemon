@@ -14,21 +14,29 @@
 <body>
     <div class="bigBox" id='bigBox'>
         <div class='calendar' id='calendar'></div>
+        <!-- <input id='dateChoice' placeholder="" type='month' /> -->
+
+
+
+
 
     </div>
 
+    <script src="../js/tools.js"></script>
     <script src="../js/slide.js"></script>
     <script src="../js/calendar.js"></script>
     <script>
-        var list = { //模拟的回款日期
-            isReturned: [20180111, 20180101],
-            notRetuned: [20180103]
-        }
-
-        /* 设置已回款/未回款日期 */
-        setReturnedData()
-
-        function setReturnedData() {
+        /*
+         * 可在日历中设置两种状态的日期（已回款/未回款），在url上拼接参数即可
+         * eg '?isReturned=20180111,20180101&notRetuned=20180113,20180104'
+         */
+        var params = getRequest()
+        console.log('url参数=> ', params)
+        var list = {
+            isReturned: params.isReturned ? params.isReturned.split(",") : [20180111, 20180101],
+            notRetuned: params.notRetuned ? params.notRetuned.split(",") : [20180103, 20180111]
+        };
+        (function setReturnedData() {
             var _table = document.getElementById("calendarTable");
             var _tds = _table.getElementsByTagName("td");
             for (var i = 0; i < _tds.length; i++) {
@@ -44,7 +52,7 @@
                 }
 
             }
-        }
+        })()
     </script>
 
 </body>
