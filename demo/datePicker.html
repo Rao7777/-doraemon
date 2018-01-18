@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name="format-detection" content="telephone=no">
+
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1" />
+    <link rel='stylesheet' href='../css/datePicker.css' />
+    <title>手机日期选择器 demo</title>
+
+</head>
+
+<body>
+    <div id='main-box'>
+
+        <div id="datePicker">双项选择</div>
+
+    </div>
+
+    <script src="../library/mobileSelect.js"></script>
+    <script>
+        var yearArr = (function() {
+            var arr = []
+            for (var i = 2014; i < 2036; i++) {
+                arr = arr.concat(i)
+
+            }
+
+            return arr
+        })()
+
+
+
+        var monthArr = (function() {
+            var arr = [];
+            for (var i = 1; i < 13; i++) {
+                arr = arr.concat(i < 10 ? '0' + i : i)
+            }
+            return arr
+        })()
+
+
+        var year = 2018;
+        var month = 01;
+
+        var initDefault = (function() {
+            console.log(yearArr, monthArr)
+
+            var _defaultY;
+            var _defaultM;
+            for (var i = 0; i < yearArr.length; i++) {
+                if (year == yearArr[i]) {
+                    console.log(i, yearArr[i])
+
+                    _defaultY = i
+                }
+            }
+
+            for (var i = 0; i < monthArr.length; i++) {
+                if (month == monthArr[i]) {
+                    console.log(i, monthArr[i])
+
+                    _defaultM = i
+                }
+            }
+
+            return [_defaultY, _defaultM]
+
+        })()
+
+
+        console.warn(initDefault)
+
+
+
+        //----------------------------------------------------------
+        //更多参数详情可查看文档 https://github.com/onlyhom/mobileSelect.js
+
+        /**
+         * 参数说明
+         * @param trigger(必填参数) 触发对象的id/class/tag
+         * @param wheels(必填参数)  数据源,需要显示的数据
+         * @param title 控件标题
+         * @param position 初始化定位
+         * @param callback 选择成功后触发的回调函数，返回indexArr(选中的选项索引)、data(选中的数据)
+         * @param transitionEnd 每一次手势滑动结束后触发的回调函数,返回indexArr(当前选中的选项索引)、data(选中的数据)
+         * @param keyMap 字段名映射
+         */
+
+        /**
+         * 函数说明(实例化之后才可用)
+         * @function setTitle()      参数 string                 设置控件的标题
+         * @function updateWheel()   参数 sliderIndex, data      重新渲染指定的轮子(可用于先实例化，后通过ajax获取数据的场景)
+         * @function updateWheels()  参数 data                   重新渲染所有轮子,仅限级联数据格式使用(可用于先实例化，后通过ajax获取数据的场景)
+         * @function locatePosition() 参数 sliderIndex, posIndex  传入位置数组，重定位轮子的位置
+         * @function show()          参数 无参                   唤起弹窗组件
+         * @function getValue()      参数 无参                   获取组件选择的值
+         */
+
+
+
+
+        var mobileSelect2 = new MobileSelect({
+            trigger: '#datePicker',
+            // title: '双项选择',
+            wheels: [{
+                data: yearArr
+            }, {
+                data: monthArr
+            }],
+            position: initDefault,
+            transitionEnd: function(indexArr, data) {
+                console.log(data);
+            },
+            callback: function(indexArr, data) {
+                console.log(data);
+                var show = document.getElementById('datePicker')
+                show.innerText = data[0] + '年' + data[1] + '月';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
