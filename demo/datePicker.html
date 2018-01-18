@@ -14,7 +14,7 @@
 <body>
     <div id='main-box'>
 
-        <div id="datePicker">双项选择</div>
+        <div id="calendar-title">双项选择</div>
 
     </div>
 
@@ -102,7 +102,7 @@
 
 
         var mobileSelect2 = new MobileSelect({
-            trigger: '#datePicker',
+            trigger: '#calendar-title',
             // title: '双项选择',
             wheels: [{
                 data: yearArr
@@ -115,7 +115,7 @@
             },
             callback: function(indexArr, data) {
                 console.log(data);
-                var show = document.getElementById('datePicker')
+                var show = document.getElementById('calendar-title')
                 show.innerText = data[0] + '年' + data[1] + '月';
             }
         });
